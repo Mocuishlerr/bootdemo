@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xionglindong.mapper.UserMapper">
+
+ <resultMap id="BaseResultMap" type="com.xionglindong.bean.lib.User">
+    <result column="id" property="id"/>
+    <result column="login_name" property="loginName"/>
+    <result column="password" property="password"/>
+    <result column="name" property="name"/>
+    <result column="group" property="group"/>
+    <result column="create_time" property="createTime"/>
+    <result column="user_status" property="userStatus"/>
+ </resultMap>
+ 
+  <insert id="add" parameterType="Object">
+    insert into user 
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="loginName!=null">
+        login_name,
+      </if>
+      <if test="password!=null">
+        password,
+      </if>
+      <if test="name!=null">
+        name,
+      </if>
+      <if test="group!=null">
+        group,
+      </if>
+      <if test="createTime!=null">
+        create_time,
+      </if>
+      <if test="userStatus!=null">
+        user_status,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="loginName!=null and loginName!='' ">
+        #{loginName},
+      </if>
+      <if test="password!=null">
+        #{password},
+      </if>
+      <if test="name!=null and name!='' ">
+        #{name},
+      </if>
+      <if test="group!=null">
+        #{group},
+      </if>
+      <if test="createTime!=null">
+        #{createTime},
+      </if>
+      <if test="userStatus!=null and userStatus!='' ">
+        #{userStatus},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="Object">
+    update user set
+    <trim suffixOverrides=",">
+      <if test="loginName!=null and loginName!='' ">
+       login_name = #{loginName},
+      </if>
+      <if test="password!=null">
+       password = #{password},
+      </if>
+      <if test="name!=null and name!='' ">
+       name = #{name},
+      </if>
+      <if test="group!=null">
+       group = #{group},
+      </if>
+      <if test="createTime!=null">
+       create_time = #{createTime},
+      </if>
+      <if test="userStatus!=null and userStatus!='' ">
+       user_status = #{userStatus},
+      </if>
+    </trim>
+    where id = #{id}
+  </update>
+  
+  <delete id="delete" parameterType="Object">
+     update user set user_status = 'deleted' 
+     where id = #{id}
+  </delete>
+
+  <select id="queryListBy" resultMap="BaseResultMap" parameterType="Object">
+     select * from user
+     where 1=1
+     <if test="id!=null ">
+       and id=#{id}
+     </if>
+     <if test="loginName!=null and loginName!=''">
+       and login_name like '%#{loginName}%'
+     </if>
+     <if test="name!=null and name!=''">
+       and name like '%#{name}%'
+     </if>
+  </select>
+  
+  <select id="query" resultMap="BaseResultMap">
+     select * from user
+  </select>
+
+</mapper>

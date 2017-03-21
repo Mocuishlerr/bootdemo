@@ -11,7 +11,9 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -26,9 +28,13 @@ import com.github.pagehelper.PageHelper;
 @EnableAsync  //异步调用 让@Async生效
 @ComponentScan
 @MapperScan("com.xionglindong.mapper")
-public class BootDemoApplication {
+public class BootDemoApplication extends SpringBootServletInitializer{
 	
 	private static Logger log = Logger.getLogger(BootDemoApplication.class);
+	
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(BootDemoApplication.class);
+	}
 	
 	//DataSourse配置
 	@Bean
